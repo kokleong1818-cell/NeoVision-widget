@@ -1,20 +1,243 @@
-(function(){var c=window.NeosonConfig||{},T=c.tenantId||"",A=c.agentId||"",P=c.primaryColor||"#1a56ff",G=c.greeting||"Hi! How can I help you today?",B=c.backendUrl||"https://vefcgkgnpx.us-east-1.awsapprunner.com",N=c.botName||"Neoson",S="session-"+Math.random().toString(36).substr(2,12);document.head.insertAdjacentHTML("beforeend","<style>@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');#neoson-root *{box-sizing:border-box;margin:0;padding:0;font-family:'DM Sans',sans-serif}#neoson-bubble{position:fixed;bottom:28px;right:28px;width:60px;height:60px;border-radius:50%;background:"+P+";box-shadow:0 4px 24px rgba(26,86,255,.45);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:99999;transition:transform .2s cubic-bezier(.34,1.56,.64,1);border:none;outline:none}#neoson-bubble:hover{transform:scale(1.08)}#neoson-bubble svg{transition:opacity .2s,transform .3s cubic-bezier(.34,1.56,.64,1)}#neoson-bubble .ic{position:absolute;transition:opacity .2s,transform .3s}#neoson-bubble .ic-chat{opacity:1;transform:scale(1)}#neoson-bubble .ic-close{opacity:0;transform:rotate(-90deg) scale(.6)}#neoson-bubble.open .ic-chat{opacity:0;transform:rotate(90deg) scale(.6)}#neoson-bubble.open .ic-close{opacity:1;transform:rotate(0) scale(1)}#neoson-dot{position:absolute;top:2px;right:2px;width:13px;height:13px;background:#ff4d4d;border-radius:50%;border:2px solid #fff;animation:npulse 2s infinite}@keyframes npulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}#neoson-window{position:fixed;bottom:104px;right:28px;width:380px;height:580px;background:#fff;border-radius:20px;box-shadow:0 24px 80px rgba(0,0,0,.18);display:flex;flex-direction:column;z-index:99998;overflow:hidden;opacity:0;transform:translateY(20px) scale(.95);pointer-events:none;transition:opacity .25s,transform .3s cubic-bezier(.34,1.56,.64,1)}#neoson-window.open{opacity:1;transform:translateY(0) scale(1);pointer-events:all}@media(max-width:440px){#neoson-window{width:calc(100vw - 24px);right:12px;bottom:100px;height:calc(100vh - 120px)}}#neoson-header{background:"+P+";padding:18px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0}#neoson-av{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#fff;border:2px solid rgba(255,255,255,.3)}#neoson-hn{font-size:15px;font-weight:600;color:#fff}#neoson-hs{font-size:12px;color:rgba(255,255,255,.75);display:flex;align-items:center;gap:5px;margin-top:2px}#neoson-sd{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:npulse 2s infinite}#neoson-messages{flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:12px;background:#f8f9fc;scroll-behavior:smooth}#neoson-messages::-webkit-scrollbar{width:4px}#neoson-messages::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:4px}.nmsg{display:flex;flex-direction:column;max-width:82%;animation:nmsgin .25s cubic-bezier(.34,1.56,.64,1)}@keyframes nmsgin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.nmsg.bot{align-self:flex-start}.nmsg.user{align-self:flex-end}.nbub{padding:11px 15px;border-radius:16px;font-size:14px;line-height:1.55;white-space:pre-wrap;word-break:break-word}.nmsg.bot .nbub{background:#fff;border-bottom-left-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.07);color:#1a1a2e}.nmsg.user .nbub{background:"+P+";color:#fff;border-bottom-right-radius:4px}.ntime{font-size:11px;color:#9ca3af;margin-top:4px;padding:0 4px}.nmsg.user .ntime{align-self:flex-end}.ntyping{display:flex;align-items:center;gap:5px;padding:12px 15px;background:#fff;border-radius:16px;border-bottom-left-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.07);width:fit-content}.ntyping span{width:7px;height:7px;background:#9ca3af;border-radius:50%;animation:ntyp 1.2s infinite ease-in-out}.ntyping span:nth-child(2){animation-delay:.2s}.ntyping span:nth-child(3){animation-delay:.4s}@keyframes ntyp{0%,80%,100%{transform:scale(1);opacity:.5}40%{transform:scale(1.3);opacity:1}}#neoson-ia{padding:14px 16px;background:#fff;border-top:1px solid #f0f0f5;display:flex;align-items:flex-end;gap:10px;flex-shrink:0}#neoson-input{flex:1;border:1.5px solid #e5e7eb;border-radius:12px;padding:10px 14px;font-size:14px;font-family:'DM Sans',sans-serif;color:#1a1a2e;background:#f8f9fc;resize:none;outline:none;max-height:100px;min-height:42px;line-height:1.5;transition:border-color .2s}#neoson-input:focus{border-color:"+P+";background:#fff}#neoson-input::placeholder{color:#9ca3af}#neoson-send{width:42px;height:42px;border-radius:12px;background:"+P+";border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s;outline:none}#neoson-send:hover{transform:scale(1.05)}#neoson-send:disabled{opacity:.5;cursor:not-allowed;transform:none}#neoson-brand{text-align:center;padding:8px;font-size:11px;color:#c4c9d4;background:#fff}#neoson-brand a{color:#9ca3af;text-decoration:none;font-weight:500}</style>");
-var r=document.createElement("div");r.id="neoson-root";
-var bl=document.createElement("button");bl.id="neoson-bubble";bl.innerHTML='<svg class="ic ic-chat" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.477 2 2 6.253 2 11.5c0 2.304.864 4.41 2.28 6.027L3 21l3.844-1.243C8.28 20.554 10.085 21 12 21c5.523 0 10-4.253 10-9.5S17.523 2 12 2z" fill="white"/></svg><svg class="ic ic-close" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg><span id="neoson-dot"></span>';
-var w=document.createElement("div");w.id="neoson-window";
-w.innerHTML='<div id="neoson-header"><div id="neoson-av">'+N.charAt(0)+'</div><div><div id="neoson-hn">'+N+'</div><div id="neoson-hs"><span id="neoson-sd"></span>Online now</div></div></div><div id="neoson-messages"></div><div id="neoson-ia"><textarea id="neoson-input" placeholder="Type your message..." rows="1"></textarea><button id="neoson-send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div id="neoson-brand">Powered by <a href="https://mirrorean.com" target="_blank">Mirrorean</a></div>';
-r.appendChild(w);r.appendChild(bl);document.body.appendChild(r);
-var open=false,loading=false,shown=false,msgs=document.getElementById("neoson-messages"),inp=document.getElementById("neoson-input"),snd=document.getElementById("neoson-send"),dot=document.getElementById("neoson-dot");
-function ts(){return new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}
-function addMsg(text,role){var d=document.createElement("div");d.className="nmsg "+role;var b=document.createElement("div");b.className="nbub";b.textContent=text;var t=document.createElement("div");t.className="ntime";t.textContent=ts();d.appendChild(b);d.appendChild(t);msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
-function showTyping(){var d=document.createElement("div");d.className="nmsg bot";d.id="ntyp";d.innerHTML='<div class="ntyping"><span></span><span></span><span></span></div>';msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
-function rmTyping(){var e=document.getElementById("ntyp");if(e)e.remove()}
-function setLoad(v){loading=v;snd.disabled=v;inp.disabled=v}
-async function send(){var text=inp.value.trim();if(!text||loading)return;if(dot&&dot.parentNode)dot.remove();inp.value="";inp.style.height="auto";addMsg(text,"user");setLoad(true);showTyping();try{var res=await fetch(B+"/chat/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({tenant_id:T,agent_id:A,session_id:S,message:text})});var data=await res.json();rmTyping();addMsg(data.message||"Sorry, something went wrong.","bot")}catch(e){rmTyping();addMsg("Unable to connect. Please try again.","bot")}finally{setLoad(false);inp.focus()}}
-function toggle(){open=!open;bl.classList.toggle("open",open);w.classList.toggle("open",open);if(open){if(!shown){shown=true;setTimeout(function(){showTyping();setTimeout(function(){rmTyping();addMsg(G,"bot")},800)},200)}setTimeout(function(){inp.focus()},350);if(dot&&dot.parentNode)dot.remove()}}
-inp.addEventListener("input",function(){this.style.height="auto";this.style.height=Math.min(this.scrollHeight,100)+"px"});
-bl.addEventListener("click",toggle);
-snd.addEventListener("click",send);
-inp.addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
-document.addEventListener("keydown",function(e){if(e.key==="Escape"&&open)toggle()});
+(function () {
+  "use strict";
+
+  var script = document.currentScript || (function () {
+    var scripts = document.getElementsByTagName("script");
+    return scripts[scripts.length - 1];
+  })();
+
+  var agentId = script && script.getAttribute("data-agent-id") || "";
+  var widgetKey = script && script.getAttribute("data-widget-key") || "";
+  var endpoint = "https://vefcgkgnpx.us-east-1.awsapprunner.com/widget/chat";
+  var rootId = "mirrorean-one-widget-root";
+
+  if (document.getElementById(rootId)) return;
+
+  var conversationId = null;
+  var isOpen = false;
+  var isSending = false;
+
+  function onReady(callback) {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", callback);
+    } else {
+      callback();
+    }
+  }
+
+  function addStyles() {
+    var style = document.createElement("style");
+    style.textContent =
+      "#mirrorean-one-widget-root *{box-sizing:border-box}" +
+      "#mo-chat-button{position:fixed;right:22px;bottom:22px;width:56px;height:56px;border:0;border-radius:50%;background:#111827;color:#fff;box-shadow:0 12px 32px rgba(17,24,39,.24);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2147483647;transition:transform .16s ease,box-shadow .16s ease}" +
+      "#mo-chat-button:hover{transform:translateY(-1px);box-shadow:0 16px 38px rgba(17,24,39,.28)}" +
+      "#mo-chat-button:focus-visible{outline:3px solid rgba(37,99,235,.35);outline-offset:3px}" +
+      "#mo-chat-button svg{width:25px;height:25px}" +
+      "#mo-chat-panel{position:fixed;right:22px;bottom:90px;width:360px;max-width:calc(100vw - 32px);height:520px;max-height:calc(100vh - 112px);background:#fff;border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 22px 70px rgba(17,24,39,.22);display:none;flex-direction:column;overflow:hidden;z-index:2147483646;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#111827}" +
+      "#mo-chat-panel.mo-open{display:flex}" +
+      "#mo-chat-header{padding:14px 16px;background:#111827;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px}" +
+      "#mo-chat-title{font-size:15px;font-weight:700;line-height:1.2}" +
+      "#mo-chat-status{font-size:12px;color:#cbd5e1;margin-top:3px}" +
+      "#mo-chat-close{width:32px;height:32px;border:0;border-radius:8px;background:rgba(255,255,255,.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}" +
+      "#mo-chat-close svg{width:18px;height:18px}" +
+      "#mo-chat-messages{flex:1;overflow-y:auto;background:#f8fafc;padding:16px;display:flex;flex-direction:column;gap:10px}" +
+      ".mo-msg{max-width:84%;display:flex;flex-direction:column;gap:4px}" +
+      ".mo-msg-user{align-self:flex-end}" +
+      ".mo-msg-assistant{align-self:flex-start}" +
+      ".mo-bubble{border-radius:14px;padding:10px 12px;font-size:14px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}" +
+      ".mo-msg-user .mo-bubble{background:#2563eb;color:#fff;border-bottom-right-radius:4px}" +
+      ".mo-msg-assistant .mo-bubble{background:#fff;color:#111827;border:1px solid #e5e7eb;border-bottom-left-radius:4px}" +
+      ".mo-time{font-size:11px;color:#94a3b8;padding:0 4px}" +
+      ".mo-msg-user .mo-time{text-align:right}" +
+      "#mo-chat-form{border-top:1px solid #e5e7eb;background:#fff;padding:12px;display:flex;gap:8px;align-items:flex-end}" +
+      "#mo-chat-input{flex:1;min-height:40px;max-height:112px;border:1px solid #d1d5db;border-radius:10px;padding:10px 11px;font:14px/1.35 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#111827;resize:none;outline:none}" +
+      "#mo-chat-input:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.12)}" +
+      "#mo-chat-send{height:40px;min-width:68px;border:0;border-radius:10px;background:#2563eb;color:#fff;font-size:14px;font-weight:700;cursor:pointer;padding:0 14px}" +
+      "#mo-chat-send:disabled{opacity:.55;cursor:not-allowed}" +
+      "#mo-chat-error{display:none;padding:9px 12px;background:#fef2f2;color:#991b1b;border-top:1px solid #fecaca;font-size:12px}" +
+      "#mo-chat-error.mo-visible{display:block}" +
+      "@media(max-width:480px){#mo-chat-button{right:16px;bottom:16px}#mo-chat-panel{right:12px;bottom:82px;width:calc(100vw - 24px);height:min(560px,calc(100vh - 100px));border-radius:12px}}";
+    document.head.appendChild(style);
+  }
+
+  function icon(name) {
+    if (name === "close") {
+      return '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
+    }
+    return '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.5 6.75A3.75 3.75 0 0 1 8.25 3h7.5a3.75 3.75 0 0 1 3.75 3.75v5.5A3.75 3.75 0 0 1 15.75 16H11l-5.2 4.1A.8.8 0 0 1 4.5 19.47V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+  }
+
+  function buildWidget() {
+    addStyles();
+
+    var root = document.createElement("div");
+    root.id = rootId;
+
+    var button = document.createElement("button");
+    button.id = "mo-chat-button";
+    button.type = "button";
+    button.setAttribute("aria-label", "Open Mirrorean One chat");
+    button.innerHTML = icon("chat");
+
+    var panel = document.createElement("section");
+    panel.id = "mo-chat-panel";
+    panel.setAttribute("aria-label", "Mirrorean One chat");
+    panel.innerHTML =
+      '<div id="mo-chat-header">' +
+      '<div><div id="mo-chat-title">Mirrorean One</div><div id="mo-chat-status">Online</div></div>' +
+      '<button id="mo-chat-close" type="button" aria-label="Close chat">' + icon("close") + "</button>" +
+      "</div>" +
+      '<div id="mo-chat-messages" aria-live="polite"></div>' +
+      '<div id="mo-chat-error" role="status"></div>' +
+      '<form id="mo-chat-form">' +
+      '<textarea id="mo-chat-input" rows="1" placeholder="Type your message..." aria-label="Message"></textarea>' +
+      '<button id="mo-chat-send" type="submit">Send</button>' +
+      "</form>";
+
+    root.appendChild(panel);
+    root.appendChild(button);
+    document.body.appendChild(root);
+
+    var close = panel.querySelector("#mo-chat-close");
+    var messages = panel.querySelector("#mo-chat-messages");
+    var form = panel.querySelector("#mo-chat-form");
+    var input = panel.querySelector("#mo-chat-input");
+    var send = panel.querySelector("#mo-chat-send");
+    var error = panel.querySelector("#mo-chat-error");
+
+    function timeLabel() {
+      return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function showError(message) {
+      error.textContent = message || "";
+      error.classList.toggle("mo-visible", Boolean(message));
+    }
+
+    function addMessage(text, role) {
+      var item = document.createElement("div");
+      item.className = "mo-msg mo-msg-" + role;
+
+      var bubble = document.createElement("div");
+      bubble.className = "mo-bubble";
+      bubble.textContent = text;
+
+      var time = document.createElement("div");
+      time.className = "mo-time";
+      time.textContent = timeLabel();
+
+      item.appendChild(bubble);
+      item.appendChild(time);
+      messages.appendChild(item);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function setOpen(nextOpen) {
+      isOpen = nextOpen;
+      panel.classList.toggle("mo-open", isOpen);
+      button.setAttribute("aria-label", isOpen ? "Close Mirrorean One chat" : "Open Mirrorean One chat");
+      if (isOpen) {
+        setTimeout(function () {
+          input.focus();
+        }, 50);
+      }
+    }
+
+    function setSending(nextSending) {
+      isSending = nextSending;
+      input.disabled = nextSending;
+      send.disabled = nextSending;
+      send.textContent = nextSending ? "Sending" : "Send";
+    }
+
+    function resizeInput() {
+      input.style.height = "auto";
+      input.style.height = Math.min(input.scrollHeight, 112) + "px";
+    }
+
+    async function sendMessage() {
+      var text = input.value.trim();
+      if (!text || isSending) return;
+
+      if (!agentId || !widgetKey) {
+        showError("Chat is missing its website configuration.");
+        return;
+      }
+
+      showError("");
+      input.value = "";
+      resizeInput();
+      addMessage(text, "user");
+      setSending(true);
+
+      var payload = {
+        agent_id: agentId,
+        widget_key: widgetKey,
+        message: text
+      };
+
+      if (conversationId) {
+        payload.conversation_id = conversationId;
+      }
+
+      try {
+        var response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        var data = await response.json().catch(function () {
+          return {};
+        });
+
+        if (!response.ok) {
+          throw new Error(data.error || data.message || "Request failed");
+        }
+
+        if (data.conversation_id) {
+          conversationId = data.conversation_id;
+        }
+
+        addMessage(data.reply || "I received your message.", "assistant");
+      } catch (err) {
+        showError("Unable to reach Mirrorean One. Please try again.");
+      } finally {
+        setSending(false);
+        input.focus();
+      }
+    }
+
+    button.addEventListener("click", function () {
+      setOpen(!isOpen);
+    });
+
+    close.addEventListener("click", function () {
+      setOpen(false);
+    });
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      sendMessage();
+    });
+
+    input.addEventListener("input", resizeInput);
+
+    input.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && isOpen) {
+        setOpen(false);
+      }
+    });
+
+    addMessage("Hi, this website chat channel is connected to Mirrorean One.", "assistant");
+  }
+
+  onReady(buildWidget);
 })();
